@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+/* Efecto de brillo para inputs al focus */
+.input:focus {
+  box-shadow: 0 0 0 2px rgba(234, 179, 8, 0.2);
+}
+
+/* Animación suave para hover en botones */
+.button {
+  transition: all 0.3s ease;
+}
+
+/* Efecto de brillo para el logo */
+.logo-glow {
+  filter: drop-shadow(0 0 10px rgba(234, 179, 8, 0.5));
+} 

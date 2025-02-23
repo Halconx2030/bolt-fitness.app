@@ -1,0 +1,214 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  extensions = [pgcrypto]
+}
+
+// Modelos basados en nuestro schema.sql
+model Usuario {
+  id              Int       @id @default(autoincrement())
+  nombre          String
+  email           String    @unique
+  password_hash   String
+  fecha_registro  DateTime  @default(now())
+  nivel           String    
+  rol_id          Int
+  es_profesor     Boolean   @default(false)
+  activo          Boolean   @default(true)
+  email_verificado Boolean  @default(false)
+  two_factor_enabled Boolean @default(false)
+  two_factor_secret String?
+
+  rol             Rol       @relation(fields: [rol_id], references: [id])
+  progreso        Progreso[]
+  notificaciones  Notificacion[]
+  logros          LogroUsuario[]
+  actividades     ActividadUsuario[]
+
+  @@map("usuarios")
+}
+
+model Rol {
+  id          Int       @id @default(autoincrement())
+  nombre      String
+  permisos    Json
+  es_profesor Boolean   @default(false)
+  usuarios    Usuario[]
+
+  @@map("roles")
+}
+
+model Ejercicio {
+  id              Int       @id @default(autoincrement())
+  nombre          String
+  descripcion     String?
+  nivel_requerido String?
+  puntos          Int       @default(0)
+  creado_por      Int
+  fecha_creacion  DateTime  @default(now())
+
+  creador         Usuario   @relation("EjerciciosCreados", fields: [creado_por], references: [id])
+  asignaciones    Asignacion[]
+  progreso        Progreso[]
+  interacciones   Interaccion[]
+
+  @@map("ejercicios")
+}
+
+model Asignacion {
+  id                Int       @id @default(autoincrement())
+  ejercicio_id      Int
+  profesor_id       Int
+  estudiante_id     Int
+  fecha_asignacion  DateTime  @default(now())
+  fecha_vencimiento DateTime?
+  estado            String
+  retroalimentacion String?
+
+  ejercicio   Ejercicio @relation(fields: [ejercicio_id], references: [id])
+  profesor    Usuario   @relation("AsignacionesProfesor", fields: [profesor_id], references: [id])
+  estudiante  Usuario   @relation("AsignacionesEstudiante", fields: [estudiante_id], references: [id])
+
+  @@map("asignaciones")
+}
+
+model Progreso {
+  id               Int      @id @default(autoincrement())
+  usuario_id       Int
+  ejercicio_id     Int
+  fecha_completado DateTime @default(now())
+  puntos_obtenidos Int      @default(0)
+  comentarios      String?
+
+  usuario    Usuario   @relation(fields: [usuario_id], references: [id])
+  ejercicio  Ejercicio @relation(fields: [ejercicio_id], references: [id])
+
+  @@map("progreso")
+}
+
+model Logro {
+  id               Int      @id @default(autoincrement())
+  nombre           String
+  descripcion      String?
+  puntos_requeridos Int
+  icono_url        String?
+  fecha_creacion   DateTime @default(now())
+  
+  usuarios         LogroUsuario[]
+
+  @@map("logros")
+}
+
+model LogroUsuario {
+  id              Int      @id @default(autoincrement())
+  usuario_id      Int
+  logro_id        Int
+  fecha_obtencion DateTime @default(now())
+
+  usuario    Usuario @relation(fields: [usuario_id], references: [id])
+  logro      Logro   @relation(fields: [logro_id], references: [id])
+
+  @@unique([usuario_id, logro_id])
+  @@map("logros_usuario")
+}
+
+model Interaccion {
+  id              Int      @id @default(autoincrement())
+  usuario_id      Int
+  tipo            String
+  referencia_tipo String
+  referencia_id   Int
+  contenido       String?
+  fecha_creacion  DateTime @default(now())
+
+  usuario    Usuario @relation(fields: [usuario_id], references: [id])
+  ejercicio  Ejercicio? @relation(fields: [referencia_id], references: [id])
+
+  @@map("interacciones")
+}
+
+model Notificacion {
+  id              Int      @id @default(autoincrement())
+  usuario_id      Int
+  tipo            String
+  mensaje         String
+  leida           Boolean  @default(false)
+  fecha_creacion  DateTime @default(now())
+
+  usuario    Usuario @relation(fields: [usuario_id], references: [id])
+
+  @@map("notificaciones")
+}
+
+model ActividadUsuario {
+  id              Int      @id @default(autoincrement())
+  usuario_id      Int
+  tipo_actividad  String
+  detalles        Json?
+  fecha_actividad DateTime @default(now())
+
+  usuario    Usuario @relation(fields: [usuario_id], references: [id])
+
+  @@map("actividad_usuario")
+}
+
+model TokenVerificacion {
+  id               Int      @id @default(autoincrement())
+  usuario_id       Int
+  token            String   @unique
+  tipo             String
+  fecha_expiracion DateTime
+  usado            Boolean  @default(false)
+
+  usuario     Usuario @relation(fields: [usuario_id], references: [id])
+
+  @@map("tokens_verificacion")
+}
+
+// ... resto de modelos basados en schema.sql 
+
+model User {
+  id                   Int       @id @default(autoincrement())
+  nombre               String
+  email                String    @unique
+  password             String
+  avatar_url           String?
+  nivel                Int       @default(1)
+  puntos_totales       Int       @default(0)
+  ejercicios_completados Int     @default(0)
+  racha_actual         Int       @default(0)
+  mejor_racha          Int       @default(0)
+  fecha_registro       DateTime  @default(now())
+  comments             Comment[]
+  exercises_completed  Exercise[] @relation("UserExercises")
+}
+
+model Exercise {
+  id                Int       @id @default(autoincrement())
+  nombre            String
+  descripcion       String
+  nivel_requerido   String
+  puntos            Int
+  tiempo_estimado   Int?
+  categoria         String
+  completado_por    Int       @default(0)
+  fecha_creacion    DateTime  @default(now())
+  comments          Comment[]
+  users_completed   User[]    @relation("UserExercises")
+}
+
+model Comment {
+  id              Int      @id @default(autoincrement())
+  contenido       String
+  fecha_creacion  DateTime @default(now())
+  likes           Int      @default(0)
+  user            User     @relation(fields: [user_id], references: [id])
+  user_id         Int
+  exercise        Exercise @relation(fields: [exercise_id], references: [id])
+  exercise_id     Int
+} 

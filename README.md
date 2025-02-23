@@ -71,3 +71,22 @@ Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo `LICENS
 ## Contacto
 
 Para preguntas o soporte, por favor contacta a [tu-email@ejemplo.com](mailto:tu-email@ejemplo.com).
+
+## Despliegue
+
+El proyecto está configurado para ser desplegado en Vercel. Para desplegar:
+
+1. Instalar Vercel CLI:
+   ```bash
+   npm i -g vercel
+   ```
+
+2. Configurar variables de entorno:
+   ```bash
+   npm run setup:vercel
+   ```
+
+3. Desplegar:
+   ```bash
+   npm run vercel:deploy
+   ```
