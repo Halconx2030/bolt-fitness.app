@@ -29,7 +29,9 @@
     "vercel:deploy": "vercel deploy --prod",
     "vercel:env:pull": "vercel env pull .env.local",
     "vercel:build": "vercel build",
-    "vercel-build": "next build"
+    "vercel-build": "next build",
+    "build:ci": "next build",
+    "deploy:vercel": "vercel --prod"
   },
   "dependencies": {
     "@prisma/client": "^5.0.0",
