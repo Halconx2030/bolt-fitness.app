@@ -1,126 +1,118 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { MessageSquare, ThumbsUp } from 'lucide-react';
-import { formatDistanceToNow } from 'date-fns';
-import { es } from 'date-fns/locale';
-import { exerciseService } from '@/services/api/exercises';
-import { useUser } from '@/hooks/useUser';
+import { useState } from 'react';
+import { format } from 'date-fns';
+import Link from 'next/link';
+import { Send } from 'lucide-react';
 
-interface ExerciseCommentsProps {
-  id: number;
+interface User {
+  name: string;
+  image: string;
 }
 
-export function ExerciseComments({ id }: ExerciseCommentsProps) {
-  const { user } = useUser();
-  const [comments, setComments] = useState<any[]>([]);
+interface Comment {
+  id: string;
+  content: string;
+  createdAt: string;
+  user: User;
+}
+
+interface ExerciseCommentsProps {
+  comments: Comment[];
+  onAddComment: (content: string) => void;
+  isLoading?: boolean;
+}
+
+const CommentSkeleton = () => (
+  <div data-testid="comment-skeleton" className="flex items-start space-x-4 animate-pulse">
+    <div className="h-10 w-10 bg-gray-700 rounded-full" />
+    <div className="flex-1">
+      <div className="h-4 w-24 bg-gray-700 rounded mb-2" />
+      <div className="h-3 w-full bg-gray-700 rounded" />
+    </div>
+  </div>
+);
+
+const ExerciseComments = ({ comments, onAddComment, isLoading = false }: ExerciseCommentsProps) => {
   const [newComment, setNewComment] = useState('');
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadComments();
-  }, [id]);
-
-  const loadComments = async () => {
-    try {
-      const data = await exerciseService.getExerciseComments(id);
-      setComments(data);
-    } catch (error) {
-      console.error('Error loading comments:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSubmitComment = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newComment.trim()) return;
 
-    try {
-      const comment = await exerciseService.addExerciseComment(id, newComment);
-      setComments([comment, ...comments]);
-      setNewComment('');
-    } catch (error) {
-      console.error('Error adding comment:', error);
-    }
+    onAddComment(newComment);
+    setNewComment('');
   };
 
-  const handleLikeComment = async (commentId: number) => {
-    try {
-      await exerciseService.likeComment(commentId);
-      setComments(comments.map(comment => 
-        comment.id === commentId 
-          ? { ...comment, likes: comment.likes + 1, liked: true }
-          : comment
-      ));
-    } catch (error) {
-      console.error('Error liking comment:', error);
-    }
-  };
-
-  if (loading) return null;
+  if (isLoading) {
+    return (
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold mb-4">Comentarios</h3>
+        {Array.from({ length: 2 }).map((_, i) => (
+          <CommentSkeleton key={i} />
+        ))}
+      </div>
+    );
+  }
 
   return (
-    <Card className="p-6">
-      <h2 className="text-xl font-semibold mb-6">Comentarios</h2>
+    <div>
+      <h3 className="text-lg font-semibold mb-4">Comentarios</h3>
 
-      <form onSubmit={handleSubmitComment} className="mb-6">
-        <Textarea
-          placeholder="Escribe un comentario..."
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          className="mb-2"
-        />
-        <Button type="submit" className="w-full">
-          <MessageSquare className="w-4 h-4 mr-2" />
-          Comentar
-        </Button>
+      <form onSubmit={handleSubmit} className="mb-6">
+        <div className="flex space-x-2">
+          <input
+            type="text"
+            value={newComment}
+            onChange={e => setNewComment(e.target.value)}
+            placeholder="Escribe un comentario..."
+            className="flex-1 bg-background rounded-lg px-4 py-2 text-sm"
+          />
+          <button
+            type="submit"
+            disabled={!newComment.trim()}
+            className="px-4 py-2 bg-primary rounded-lg text-white disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <Send className="w-4 h-4" />
+            <span className="sr-only">Comentar</span>
+          </button>
+        </div>
       </form>
 
-      <ScrollArea className="h-[500px] pr-4">
+      {comments.length === 0 ? (
+        <p className="text-center text-gray-400">No hay comentarios aún</p>
+      ) : (
         <div className="space-y-4">
-          {comments.map((comment) => (
-            <div
-              key={comment.id}
-              className="flex space-x-4 p-4 rounded-lg bg-gray-800/50"
-            >
-              <Avatar className="w-10 h-10">
-                <AvatarImage src={comment.user.avatar_url} />
-                <AvatarFallback>{comment.user.nombre[0]}</AvatarFallback>
-              </Avatar>
-              <div className="flex-1 space-y-2">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="font-medium">{comment.user.nombre}</p>
-                    <p className="text-sm text-gray-400">
-                      {formatDistanceToNow(new Date(comment.fecha_creacion), {
-                        addSuffix: true,
-                        locale: es
-                      })}
-                    </p>
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleLikeComment(comment.id)}
-                    disabled={comment.liked}
-                    className={comment.liked ? 'text-yellow-400' : ''}
+          {comments.map(comment => (
+            <article key={comment.id} className="flex items-start space-x-4">
+              <Link href={`/profile/${comment.user.name}`}>
+                <img
+                  src={comment.user.image}
+                  alt={comment.user.name}
+                  className="h-10 w-10 rounded-full"
+                />
+              </Link>
+
+              <div className="flex-1">
+                <div className="flex items-center space-x-2">
+                  <Link
+                    href={`/profile/${comment.user.name}`}
+                    className="font-medium hover:text-primary"
                   >
-                    <ThumbsUp className="w-4 h-4 mr-1" />
-                    {comment.likes}
-                  </Button>
+                    {comment.user.name}
+                  </Link>
+                  <span className="text-xs text-gray-400">
+                    {format(new Date(comment.createdAt), 'dd MMM yyyy')}
+                  </span>
                 </div>
-                <p className="text-gray-300">{comment.contenido}</p>
+                <p className="mt-1 text-gray-200">{comment.content}</p>
               </div>
-            </div>
+            </article>
           ))}
         </div>
-      </ScrollArea>
-    </Card>
+      )}
+    </div>
   );
-} 
+};
+
+export default ExerciseComments;

@@ -5,7 +5,7 @@ export enum ErrorType {
   AUTHORIZATION = 'AUTHORIZATION_ERROR',
   NOT_FOUND = 'NOT_FOUND_ERROR',
   SERVER = 'SERVER_ERROR',
-  NETWORK = 'NETWORK_ERROR'
+  NETWORK = 'NETWORK_ERROR',
 }
 
 export interface ApiErrorResponse {
@@ -31,7 +31,7 @@ export class ApiError extends Error {
       message: this.message,
       type: this.type,
       errors: this.errors,
-      ...(process.env.NODE_ENV === 'development' && { stack: this.stack })
+      ...(process.env.NODE_ENV === 'development' && { stack: this.stack }),
     };
   }
 }
@@ -45,29 +45,26 @@ export const handleApiError = (error: unknown): ApiErrorResponse => {
     return {
       message: 'Ha ocurrido un error inesperado',
       type: ErrorType.SERVER,
-      ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
+      ...(process.env.NODE_ENV === 'development' && { stack: error.stack }),
     };
   }
 
   return {
     message: 'Ha ocurrido un error desconocido',
-    type: ErrorType.SERVER
+    type: ErrorType.SERVER,
   };
 };
 
 export const createApiError = {
-  validation: (message: string, errors?: Record<string, string[]>) => 
+  validation: (message: string, errors?: Record<string, string[]>) =>
     new ApiError(400, message, ErrorType.VALIDATION, errors),
-    
-  authentication: (message = 'No autenticado') => 
+
+  authentication: (message = 'No autenticado') =>
     new ApiError(401, message, ErrorType.AUTHENTICATION),
-    
-  authorization: (message = 'No autorizado') => 
-    new ApiError(403, message, ErrorType.AUTHORIZATION),
-    
-  notFound: (message = 'Recurso no encontrado') => 
-    new ApiError(404, message, ErrorType.NOT_FOUND),
-    
-  server: (message = 'Error interno del servidor') => 
-    new ApiError(500, message, ErrorType.SERVER)
-}; 
+
+  authorization: (message = 'No autorizado') => new ApiError(403, message, ErrorType.AUTHORIZATION),
+
+  notFound: (message = 'Recurso no encontrado') => new ApiError(404, message, ErrorType.NOT_FOUND),
+
+  server: (message = 'Error interno del servidor') => new ApiError(500, message, ErrorType.SERVER),
+};

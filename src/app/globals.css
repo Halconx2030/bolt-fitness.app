@@ -25,4 +25,4 @@ body {
 /* Efecto de brillo para el logo */
 .logo-glow {
   filter: drop-shadow(0 0 10px rgba(234, 179, 8, 0.5));
-} 
+}

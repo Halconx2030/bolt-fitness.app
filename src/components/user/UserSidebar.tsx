@@ -1,9 +1,6 @@
 'use client';
 
-import { 
-  Home, Dumbbell, Trophy, Calendar,
-  Users, Heart, Settings 
-} from 'lucide-react';
+import { Home, Dumbbell, Trophy, Calendar, Users, Heart, Settings } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
@@ -15,38 +12,38 @@ const menuItems = [
   {
     title: 'Inicio',
     icon: Home,
-    href: '/dashboard'
+    href: '/dashboard',
   },
   {
     title: 'Ejercicios',
     icon: Dumbbell,
-    href: '/exercises'
+    href: '/exercises',
   },
   {
     title: 'Logros',
     icon: Trophy,
-    href: '/achievements'
+    href: '/achievements',
   },
   {
     title: 'Calendario',
     icon: Calendar,
-    href: '/calendar'
+    href: '/calendar',
   },
   {
     title: 'Comunidad',
     icon: Users,
-    href: '/community'
+    href: '/community',
   },
   {
     title: 'Favoritos',
     icon: Heart,
-    href: '/favorites'
+    href: '/favorites',
   },
   {
     title: 'Configuración',
     icon: Settings,
-    href: '/settings'
-  }
+    href: '/settings',
+  },
 ];
 
 export const UserSidebar = ({ level }: UserSidebarProps) => {
@@ -58,17 +55,14 @@ export const UserSidebar = ({ level }: UserSidebarProps) => {
         <div className="p-4 bg-yellow-400/10 rounded-lg">
           <h3 className="text-yellow-400 font-medium">Nivel: {level}</h3>
           <div className="mt-2 h-2 bg-gray-700 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-yellow-400 rounded-full"
-              style={{ width: '60%' }}
-            />
+            <div className="h-full bg-yellow-400 rounded-full" style={{ width: '60%' }} />
           </div>
           <p className="mt-1 text-xs text-gray-400">60% para el siguiente nivel</p>
         </div>
       </div>
 
       <div className="space-y-2">
-        {menuItems.map((item) => {
+        {menuItems.map(item => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
 
@@ -78,9 +72,11 @@ export const UserSidebar = ({ level }: UserSidebarProps) => {
               href={item.href}
               className={`
                 flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors
-                ${isActive 
-                  ? 'bg-yellow-400/10 text-yellow-400' 
-                  : 'text-gray-400 hover:bg-gray-700/50 hover:text-gray-100'}
+                ${
+                  isActive
+                    ? 'bg-yellow-400/10 text-yellow-400'
+                    : 'text-gray-400 hover:bg-gray-700/50 hover:text-gray-100'
+                }
               `}
             >
               <Icon className="w-5 h-5" />
@@ -91,4 +87,4 @@ export const UserSidebar = ({ level }: UserSidebarProps) => {
       </div>
     </div>
   );
-}; 
+};

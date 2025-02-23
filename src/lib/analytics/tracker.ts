@@ -18,4 +18,4 @@ export class Analytics {
   static setUserProperties(userId: string, properties: Record<string, any>) {
     mixpanel.people.set(userId, properties);
   }
-} 
+}

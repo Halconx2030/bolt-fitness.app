@@ -1,0 +1,23 @@
+---
+description: Resuelve los imports usando moduleNameMapper en Jest para los alias "@/..." configurados en el proyecto.
+globs: 
+---
+
+# Your rule content
+
+- You can @ files here
+- You can use markdown but dont have to
+# Resolver Imports con Jest usando moduleNameMapper
+
+Esta regla ayuda a resolver correctamente los imports en Jest cuando se utiliza el alias `@/...` en el proyecto.
+
+## ¿Por qué esta regla?
+En proyectos de React con Next.js y Jest, el uso de alias (`@/...`) puede causar problemas de resolución de módulos. Esta regla asegura que Jest pueda mapear correctamente estos imports utilizando la configuración `moduleNameMapper`.
+
+---
+
+## ¿Cómo funciona?
+- Se utiliza `moduleNameMapper` en `jest.config.js` para redirigir los imports de `@/...` a la carpeta `src`.
+- Esto evita errores como:
+  ```plaintext
+  Could not locate module @/components/ui/card mapped as...

@@ -2,13 +2,13 @@
 export enum NivelRequerido {
   PRINCIPIANTE = 'principiante',
   INTERMEDIO = 'intermedio',
-  AVANZADO = 'avanzado'
+  AVANZADO = 'avanzado',
 }
 
 export enum TipoLogro {
   EJERCICIO = 'ejercicio',
   RACHA = 'racha',
-  PUNTOS = 'puntos'
+  PUNTOS = 'puntos',
 }
 
 // Interfaces base
@@ -90,4 +90,4 @@ export interface UserStats {
     racha_actual: number;
     mejor_racha: number;
   };
-} 
+}

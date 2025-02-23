@@ -56,10 +56,7 @@ function ExerciseHistory() {
     <div className="space-y-4">
       {/* Ejemplo de datos, reemplazar con datos reales */}
       {Array.from({ length: 5 }).map((_, i) => (
-        <div
-          key={i}
-          className="flex items-start space-x-4 p-4 rounded-lg bg-gray-800/50"
-        >
+        <div key={i} className="flex items-start space-x-4 p-4 rounded-lg bg-gray-800/50">
           <div className="p-2 bg-yellow-400/10 rounded-lg">
             <Dumbbell className="w-5 h-5 text-yellow-400" />
           </div>
@@ -69,13 +66,11 @@ function ExerciseHistory() {
               <span className="text-sm text-gray-400">
                 {formatDistanceToNow(new Date(Date.now() - i * 86400000), {
                   addSuffix: true,
-                  locale: es
+                  locale: es,
                 })}
               </span>
             </div>
-            <p className="text-sm text-gray-400 mt-1">
-              Completado con 100 puntos
-            </p>
+            <p className="text-sm text-gray-400 mt-1">Completado con 100 puntos</p>
           </div>
         </div>
       ))}
@@ -87,10 +82,7 @@ function AchievementHistory() {
   return (
     <div className="space-y-4">
       {Array.from({ length: 3 }).map((_, i) => (
-        <div
-          key={i}
-          className="flex items-start space-x-4 p-4 rounded-lg bg-gray-800/50"
-        >
+        <div key={i} className="flex items-start space-x-4 p-4 rounded-lg bg-gray-800/50">
           <div className="p-2 bg-yellow-400/10 rounded-lg">
             <Trophy className="w-5 h-5 text-yellow-400" />
           </div>
@@ -100,13 +92,11 @@ function AchievementHistory() {
               <span className="text-sm text-gray-400">
                 {formatDistanceToNow(new Date(Date.now() - i * 86400000), {
                   addSuffix: true,
-                  locale: es
+                  locale: es,
                 })}
               </span>
             </div>
-            <p className="text-sm text-gray-400 mt-1">
-              ¡Has alcanzado un nuevo nivel!
-            </p>
+            <p className="text-sm text-gray-400 mt-1">¡Has alcanzado un nuevo nivel!</p>
           </div>
         </div>
       ))}
@@ -118,10 +108,7 @@ function CommentHistory() {
   return (
     <div className="space-y-4">
       {Array.from({ length: 4 }).map((_, i) => (
-        <div
-          key={i}
-          className="flex items-start space-x-4 p-4 rounded-lg bg-gray-800/50"
-        >
+        <div key={i} className="flex items-start space-x-4 p-4 rounded-lg bg-gray-800/50">
           <div className="p-2 bg-yellow-400/10 rounded-lg">
             <MessageSquare className="w-5 h-5 text-yellow-400" />
           </div>
@@ -131,16 +118,14 @@ function CommentHistory() {
               <span className="text-sm text-gray-400">
                 {formatDistanceToNow(new Date(Date.now() - i * 86400000), {
                   addSuffix: true,
-                  locale: es
+                  locale: es,
                 })}
               </span>
             </div>
-            <p className="text-sm text-gray-400 mt-1">
-              "¡Excelente ejercicio! Me ayudó mucho."
-            </p>
+            <p className="text-sm text-gray-400 mt-1">"¡Excelente ejercicio! Me ayudó mucho."</p>
           </div>
         </div>
       ))}
     </div>
   );
-} 
+}

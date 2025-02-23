@@ -1,60 +1,71 @@
 'use client';
 
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Dumbbell, Trophy, Clock } from 'lucide-react';
+import React from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
-interface ExerciseCardProps {
-  exercise: {
-    id: number;
-    nombre: string;
-    descripcion: string;
-    nivel_requerido: string;
-    puntos: number;
-    tiempo_estimado?: number;
-  };
+interface Exercise {
+  id: string;
+  name: string;
+  muscleGroup: string;
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  equipment: string;
+  image: string;
+  description: string;
 }
 
-export function ExerciseCard({ exercise }: ExerciseCardProps) {
+interface ExerciseCardProps {
+  exercise: Exercise;
+}
+
+const difficultyColors = {
+  Beginner: 'bg-green-500',
+  Intermediate: 'bg-yellow-500',
+  Advanced: 'bg-red-500',
+};
+
+const truncateText = (text: string, maxLength: number = 72) => {
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength) + '...';
+};
+
+const ExerciseCard = ({ exercise }: ExerciseCardProps) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
-    <Card className="overflow-hidden hover:ring-2 hover:ring-yellow-400/20 transition">
-      <div className="p-6">
-        <div className="flex items-start justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-yellow-400/10 rounded-lg">
-              <Dumbbell className="w-5 h-5 text-yellow-400" />
-            </div>
-            <h3 className="font-semibold text-lg">{exercise.nombre}</h3>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Trophy className="w-4 h-4 text-yellow-400" />
-            <span className="text-sm font-medium">{exercise.puntos} pts</span>
+    <Link href={`/exercises/${exercise.id}`}>
+      <motion.div
+        data-testid="exercise-card"
+        className={`bg-secondary rounded-lg overflow-hidden transition-transform duration-300 ${
+          isHovered ? 'transform scale-105' : ''
+        }`}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <div className="aspect-video relative">
+          <img src={exercise.image} alt={exercise.name} className="w-full h-full object-cover" />
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+            <h3 className="text-lg font-semibold text-white">{exercise.name}</h3>
+            <p className="text-sm text-gray-200">{exercise.muscleGroup}</p>
           </div>
         </div>
 
-        <p className="mt-3 text-sm text-gray-400 line-clamp-2">
-          {exercise.descripcion}
-        </p>
-
-        <div className="mt-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2 text-sm text-gray-400">
-            <Clock className="w-4 h-4" />
-            <span>{exercise.tiempo_estimado || 15} min</span>
+        <div className="p-4">
+          <div className="flex items-center space-x-2 mb-2">
+            <span
+              className={`text-xs px-2 py-1 rounded-full text-white ${difficultyColors[exercise.difficulty]}`}
+            >
+              {exercise.difficulty}
+            </span>
+            <span className="text-xs text-gray-400">{exercise.equipment}</span>
           </div>
-          <span className="text-sm font-medium px-2 py-1 bg-yellow-400/10 text-yellow-400 rounded-full">
-            {exercise.nivel_requerido}
-          </span>
-        </div>
 
-        <div className="mt-6">
-          <Link href={`/exercises/${exercise.id}`}>
-            <Button className="w-full" variant="secondary">
-              Comenzar Ejercicio
-            </Button>
-          </Link>
+          <p className="text-sm text-gray-400">{truncateText(exercise.description)}</p>
         </div>
-      </div>
-    </Card>
+      </motion.div>
+    </Link>
   );
-} 
+};
+
+export default ExerciseCard;

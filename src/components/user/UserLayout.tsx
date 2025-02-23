@@ -17,14 +17,10 @@ export const UserLayout = ({ children }: UserLayoutProps) => {
       <UserHeader user={user} level={level} />
       <div className="flex">
         <UserSidebar level={level} />
-        <motion.main
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="flex-1 p-8"
-        >
+        <motion.main initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 p-8">
           {children}
         </motion.main>
       </div>
     </div>
   );
-}; 
+};

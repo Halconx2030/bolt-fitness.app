@@ -15,7 +15,7 @@ export default function ExercisePage({ params }: ExercisePageProps) {
     <div className="space-y-8">
       <Suspense fallback={<ExerciseDetailSkeleton />}>
         <ExerciseDetail id={parseInt(params.id)} />
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             <ExerciseProgress id={parseInt(params.id)} />
@@ -27,4 +27,4 @@ export default function ExercisePage({ params }: ExercisePageProps) {
       </Suspense>
     </div>
   );
-} 
+}

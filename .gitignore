@@ -69,4 +69,11 @@ next-env.d.ts
 
 # IDE
 .vscode/
-.idea/ 
+.idea/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Test env
+.env.test 

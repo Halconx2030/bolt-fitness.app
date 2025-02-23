@@ -24,11 +24,7 @@ export const DualRoleLayout = ({ studentView, teacherView }: DualRoleLayoutProps
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
       {isTeacher && (
         <div className="fixed top-4 right-4 z-50">
-          <RoleSwitch 
-            currentRole={role} 
-            onChange={handleRoleSwitch}
-            disabled={isTransitioning}
-          />
+          <RoleSwitch currentRole={role} onChange={handleRoleSwitch} disabled={isTransitioning} />
         </div>
       )}
 
@@ -46,4 +42,4 @@ export const DualRoleLayout = ({ studentView, teacherView }: DualRoleLayoutProps
       </AnimatePresence>
     </div>
   );
-}; 
+};

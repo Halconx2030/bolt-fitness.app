@@ -12,11 +12,7 @@ interface RoleBasedLayoutProps {
   studentView?: React.ReactNode;
 }
 
-export const RoleBasedLayout = ({ 
-  children, 
-  teacherView, 
-  studentView 
-}: RoleBasedLayoutProps) => {
+export const RoleBasedLayout = ({ children, teacherView, studentView }: RoleBasedLayoutProps) => {
   const { user } = useAuth();
 
   if (!user) return null;
@@ -36,4 +32,4 @@ export const RoleBasedLayout = ({
     default:
       return <UserLayout>{children}</UserLayout>;
   }
-}; 
+};

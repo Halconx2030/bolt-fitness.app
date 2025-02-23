@@ -17,14 +17,10 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
       <AdminHeader user={user} />
       <div className="flex">
         <Sidebar />
-        <motion.main
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="flex-1 p-8"
-        >
+        <motion.main initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 p-8">
           {children}
         </motion.main>
       </div>
     </div>
   );
-}; 
+};

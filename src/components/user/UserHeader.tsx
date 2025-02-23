@@ -61,4 +61,4 @@ export const UserHeader = ({ user, level }: UserHeaderProps) => {
       </div>
     </header>
   );
-}; 
+};

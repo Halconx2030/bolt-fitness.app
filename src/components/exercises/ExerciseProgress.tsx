@@ -58,12 +58,7 @@ export function ExerciseProgress({ id }: ExerciseProgressProps) {
                   <XAxis dataKey="date" />
                   <YAxis />
                   <Tooltip />
-                  <Line
-                    type="monotone"
-                    dataKey="points"
-                    stroke="#EAB308"
-                    strokeWidth={2}
-                  />
+                  <Line type="monotone" dataKey="points" stroke="#EAB308" strokeWidth={2} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -79,16 +74,16 @@ export function ExerciseProgress({ id }: ExerciseProgressProps) {
               >
                 <div>
                   <p className="font-medium">{attempt.date}</p>
-                  <p className="text-sm text-gray-400">
-                    {attempt.points} puntos obtenidos
-                  </p>
+                  <p className="text-sm text-gray-400">{attempt.points} puntos obtenidos</p>
                 </div>
                 <div className="text-sm">
-                  <span className={`px-2 py-1 rounded-full ${
-                    attempt.completed
-                      ? 'bg-green-400/10 text-green-400'
-                      : 'bg-yellow-400/10 text-yellow-400'
-                  }`}>
+                  <span
+                    className={`px-2 py-1 rounded-full ${
+                      attempt.completed
+                        ? 'bg-green-400/10 text-green-400'
+                        : 'bg-yellow-400/10 text-yellow-400'
+                    }`}
+                  >
                     {attempt.completed ? 'Completado' : 'En progreso'}
                   </span>
                 </div>
@@ -99,4 +94,4 @@ export function ExerciseProgress({ id }: ExerciseProgressProps) {
       </Tabs>
     </Card>
   );
-} 
+}

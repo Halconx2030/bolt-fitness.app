@@ -49,4 +49,4 @@ export const ModeratorHeader = () => {
       </div>
     </header>
   );
-}; 
+};

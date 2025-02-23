@@ -1,92 +1,125 @@
-# Aplicación de Gimnasio
+# BoltFitness App 🏋️‍♂️
 
-## Descripción
+Aplicación de entrenamiento personal con funcionalidades avanzadas de seguimiento, autenticación segura y experiencia offline.
 
-Esta es una aplicación integral y escalable para la gestión de un gimnasio, diseñada para mejorar la experiencia del usuario mediante una estructura de roles sólida y una base de datos robusta. La aplicación permite a los usuarios interactuar como estudiantes y profesores, ofreciendo funcionalidades avanzadas para la gestión de ejercicios, progreso y logros.
+## Características Principales 🚀
 
-## Características
+### Autenticación y Seguridad 🔐
 
-- **Sistema de Usuarios y Roles:**
-  - Roles de Administrador, Moderador, Usuario (Básico, Medio, Maestro, Premium) y Profesor/Estudiante.
-  - Gestión de permisos detallada para cada rol.
+- Autenticación de dos factores (2FA) con QR y códigos de respaldo
+- Autenticación biométrica mediante WebAuthn
+- Gestión segura de sesiones con Supabase
+- Sistema de recuperación de cuenta
 
-- **Base de Datos y Estructura de Contenido:**
-  - Tablas para usuarios, roles, ejercicios, asignaciones, progreso, logros e interacciones.
-  - Relación profesor-estudiante para seguimiento de progreso y asignación de ejercicios.
+### Experiencia Offline 📱
 
-- **Interacción y Funcionalidades:**
-  - Panel dedicado para profesores con herramientas de asignación y retroalimentación.
-  - Dualidad de interfaz para usuarios con rol dual (profesor/estudiante).
+- Funcionamiento completo sin conexión
+- Sincronización automática al recuperar conexión
+- Cache inteligente de recursos
+- Almacenamiento local de entrenamientos
 
-- **Seguridad y Privacidad:**
-  - Encriptación de contraseñas y datos sensibles.
-  - Autenticación en dos pasos (2FA) y gestión robusta de sesiones.
+### Notificaciones Push 🔔
 
-## Instalación
+- Recordatorios personalizados de entrenamiento
+- Alertas de logros y objetivos
+- Recordatorios de hidratación
+- Notificaciones de racha de ejercicios
 
-1. **Clonar el Repositorio:**
+### Monitoreo y Rendimiento 📊
+
+- Logging estructurado con Pino
+- Integración con Sentry para errores
+- Métricas de performance
+- Sistema de alertas personalizado
+
+## Tecnologías Utilizadas 💻
+
+- **Frontend**: Next.js, TypeScript, Tailwind CSS
+- **Backend**: Supabase, Redis
+- **Testing**: Jest, Testing Library
+- **PWA**: Service Workers, WebAuthn
+- **Monitoreo**: Sentry, Pino
+- **CI/CD**: GitHub Actions, Vercel
+
+## Estructura del Proyecto 📁
+
+```
+src/
+├── components/         # Componentes React
+├── lib/               # Utilidades y servicios
+│   ├── auth/          # Servicios de autenticación
+│   ├── monitoring/    # Logging y monitoreo
+│   └── notifications/ # Sistema de notificaciones
+├── pages/             # Rutas de Next.js
+├── styles/           # Estilos globales
+└── tests/            # Tests unitarios y de integración
+```
+
+## Configuración Local 🛠️
+
+1. **Requisitos Previos**
+
    ```bash
-   git clone https://github.com/tu-usuario/aplicacion-gimnasio.git
-   cd aplicacion-gimnasio
+   Node.js >= 16.x
+   npm >= 8.x
    ```
 
-2. **Configurar el Entorno:**
-   - Asegúrate de tener instalado [Node.js](https://nodejs.org/) y [PostgreSQL](https://www.postgresql.org/).
-   - Crea un archivo `.env` basado en el archivo `.env.example` y configura tus variables de entorno.
+2. **Instalación**
 
-3. **Instalar Dependencias:**
    ```bash
+   git clone https://github.com/tu-usuario/boltfitness-app.git
+   cd boltfitness-app
    npm install
    ```
 
-4. **Configurar la Base de Datos:**
-   - Ejecuta las migraciones para crear las tablas necesarias:
-     ```bash
-     npm run migrate
-     ```
+3. **Variables de Entorno**
 
-5. **Iniciar el Servidor:**
    ```bash
-   npm start
+   cp .env.example .env.local
+   # Configurar las variables necesarias
    ```
 
-## Uso
-
-- Accede a la aplicación en `http://localhost:3000`.
-- Regístrate como usuario y explora las funcionalidades disponibles según tu rol.
-- Los profesores pueden asignar ejercicios y revisar el progreso de sus estudiantes desde su panel dedicado.
-
-## Contribución
-
-1. Haz un fork del proyecto.
-2. Crea una nueva rama (`git checkout -b feature/nueva-funcionalidad`).
-3. Realiza tus cambios y haz commit (`git commit -m 'Añadir nueva funcionalidad'`).
-4. Sube tus cambios (`git push origin feature/nueva-funcionalidad`).
-5. Abre un Pull Request.
-
-## Licencia
-
-Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
-
-## Contacto
-
-Para preguntas o soporte, por favor contacta a [tu-email@ejemplo.com](mailto:tu-email@ejemplo.com).
-
-## Despliegue
-
-El proyecto está configurado para ser desplegado en Vercel. Para desplegar:
-
-1. Instalar Vercel CLI:
+4. **Desarrollo Local**
    ```bash
-   npm i -g vercel
+   npm run dev
    ```
 
-2. Configurar variables de entorno:
-   ```bash
-   npm run setup:vercel
-   ```
+## Scripts Disponibles 📝
 
-3. Desplegar:
-   ```bash
-   npm run vercel:deploy
-   ```
+- `npm run dev`: Inicia el servidor de desarrollo
+- `npm run build`: Construye la aplicación para producción
+- `npm run test`: Ejecuta los tests
+- `npm run lint`: Verifica el código con ESLint
+- `npm run type-check`: Verifica los tipos de TypeScript
+
+## Documentación 📚
+
+Documentación detallada disponible en `/docs`:
+
+- [Guía de Componentes](/docs/components)
+- [Hooks Personalizados](/docs/hooks)
+- [Contextos](/docs/contexts)
+- [Servicios](/docs/services)
+- [Base de Datos](/docs/database)
+- [Testing](/docs/testing)
+
+## Contribución 🤝
+
+1. Fork el repositorio
+2. Crea una rama (`git checkout -b feature/amazing-feature`)
+3. Commit tus cambios (`git commit -m 'feat: add amazing feature'`)
+4. Push a la rama (`git push origin feature/amazing-feature`)
+5. Abre un Pull Request
+
+## Licencia 📄
+
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
+
+## Contacto 📧
+
+- Proyecto: [https://github.com/tu-usuario/boltfitness-app](https://github.com/tu-usuario/boltfitness-app)
+- Sitio Web: [https://boltfitness.app](https://boltfitness.app)
+
+---
+
+Desarrollado con ❤️ por el equipo de BoltFitness

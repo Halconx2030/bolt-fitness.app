@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 export class AchievementSystem {
   static async checkAndAwardAchievements(userId: number) {
     const progress = await prisma.progreso.findMany({
-      where: { usuario_id: userId }
+      where: { usuario_id: userId },
     });
 
     const totalExercises = progress.length;
@@ -36,16 +36,16 @@ export class AchievementSystem {
     const existing = await prisma.logros_usuario.findFirst({
       where: {
         usuario_id: userId,
-        logro: { identificador: achievementId }
-      }
+        logro: { identificador: achievementId },
+      },
     });
 
     if (!existing) {
       await prisma.logros_usuario.create({
         data: {
           usuario_id: userId,
-          logro: { connect: { identificador: achievementId } }
-        }
+          logro: { connect: { identificador: achievementId } },
+        },
       });
 
       // Notificar al usuario
@@ -53,8 +53,8 @@ export class AchievementSystem {
         data: {
           usuario_id: userId,
           tipo: 'logro_obtenido',
-          mensaje: `¡Has desbloqueado un nuevo logro!`
-        }
+          mensaje: `¡Has desbloqueado un nuevo logro!`,
+        },
       });
     }
   }
@@ -63,7 +63,7 @@ export class AchievementSystem {
     const recentProgress = await prisma.progreso.findMany({
       where: { usuario_id: userId },
       orderBy: { fecha_completado: 'desc' },
-      take: 30 // Últimos 30 días
+      take: 30, // Últimos 30 días
     });
 
     let streak = 0;
@@ -85,4 +85,4 @@ export class AchievementSystem {
 
     return streak;
   }
-} 
+}

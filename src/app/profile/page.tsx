@@ -10,7 +10,7 @@ export default function ProfilePage() {
     <div className="space-y-8">
       <Suspense fallback={<ProfileSkeleton />}>
         <ProfileHeader />
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
             <ProfileStats />
@@ -23,4 +23,4 @@ export default function ProfilePage() {
       </Suspense>
     </div>
   );
-} 
+}

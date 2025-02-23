@@ -12,31 +12,31 @@ export function ProfileStats() {
       label: 'Ejercicios Completados',
       value: '156',
       icon: Dumbbell,
-      change: '+12% vs. mes anterior'
+      change: '+12% vs. mes anterior',
     },
     {
       label: 'Racha Actual',
       value: '7 días',
       icon: Flame,
-      change: 'Mejor racha: 15 días'
+      change: 'Mejor racha: 15 días',
     },
     {
       label: 'Puntos Totales',
       value: '2,450',
       icon: Star,
-      change: '+350 esta semana'
+      change: '+350 esta semana',
     },
     {
       label: 'Logros Desbloqueados',
       value: '24/50',
       icon: Trophy,
-      change: '3 nuevos esta semana'
-    }
+      change: '3 nuevos esta semana',
+    },
   ];
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {stats.map((stat) => (
+      {stats.map(stat => (
         <Card key={stat.label} className="p-6">
           <div className="flex items-start justify-between">
             <div>
@@ -52,4 +52,4 @@ export function ProfileStats() {
       ))}
     </div>
   );
-} 
+}

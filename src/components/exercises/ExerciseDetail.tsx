@@ -4,95 +4,120 @@ import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { Dumbbell, Trophy, Clock, ArrowLeft } from 'lucide-react';
+import { Dumbbell, Trophy, Clock, ArrowLeft, CheckCircle, PlayCircle } from 'lucide-react';
 import { exerciseService } from '@/services/api/exercises';
 import { useRouter } from 'next/navigation';
 
-interface ExerciseDetailProps {
-  id: number;
+interface Exercise {
+  id: string;
+  name: string;
+  description: string;
+  muscleGroup: string;
+  difficulty: string;
+  equipment: string;
+  image: string;
+  instructions: string[];
+  tips: string[];
+  videoUrl: string;
 }
 
-export function ExerciseDetail({ id }: ExerciseDetailProps) {
-  const [exercise, setExercise] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const router = useRouter();
+interface ExerciseDetailProps {
+  exercise: Exercise;
+  onStartExercise: (id: string) => void;
+  isLoading?: boolean;
+}
 
-  useEffect(() => {
-    const loadExercise = async () => {
-      try {
-        const data = await exerciseService.getExerciseById(id);
-        setExercise(data);
-      } catch (error) {
-        console.error('Error loading exercise:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+const ExerciseDetailSkeleton = () => (
+  <div data-testid="exercise-detail-skeleton" className="animate-pulse space-y-4">
+    <div className="h-64 bg-gray-700 rounded-lg" />
+    <div className="space-y-2">
+      <div className="h-8 w-1/3 bg-gray-700 rounded" />
+      <div className="h-4 w-2/3 bg-gray-700 rounded" />
+    </div>
+    <div className="space-y-2">
+      {Array.from({ length: 4 }).map((_, i) => (
+        <div key={i} className="h-4 bg-gray-700 rounded" />
+      ))}
+    </div>
+  </div>
+);
 
-    loadExercise();
-  }, [id]);
-
-  if (loading) return null;
+export const ExerciseDetail = ({
+  exercise,
+  onStartExercise,
+  isLoading = false,
+}: ExerciseDetailProps) => {
+  if (isLoading) {
+    return <ExerciseDetailSkeleton />;
+  }
 
   return (
-    <Card className="p-6">
-      <div className="flex items-center space-x-4 mb-6">
+    <div className="space-y-6">
+      <div className="relative aspect-video rounded-lg overflow-hidden">
+        {exercise.videoUrl ? (
+          <video
+            data-testid="exercise-video"
+            src={exercise.videoUrl}
+            poster={exercise.image}
+            controls
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <img src={exercise.image} alt={exercise.name} className="w-full h-full object-cover" />
+        )}
+      </div>
+
+      <div>
+        <h1 className="text-2xl font-bold">{exercise.name}</h1>
+        <p className="mt-2 text-gray-400">{exercise.description}</p>
+
+        <div className="mt-4 flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
+            <Dumbbell className="w-5 h-5 text-primary" />
+            <span>{exercise.muscleGroup}</span>
+          </div>
+          <span className="text-sm px-2 py-1 bg-primary/10 text-primary rounded-full">
+            {exercise.difficulty}
+          </span>
+          <span className="text-sm text-gray-400">{exercise.equipment}</span>
+        </div>
+      </div>
+
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Instrucciones</h2>
+        <ol className="space-y-3">
+          {exercise.instructions.map((instruction, index) => (
+            <li key={index} className="flex items-start space-x-3">
+              <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-primary/10 text-primary text-sm">
+                {index + 1}
+              </span>
+              <span>{instruction}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Tips</h2>
+        <ul className="space-y-3">
+          {exercise.tips.map((tip, index) => (
+            <li key={index} className="flex items-start space-x-3">
+              <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
+              <span>{tip}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="flex justify-center pt-4">
         <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => router.back()}
+          onClick={() => onStartExercise(exercise.id)}
+          className="flex items-center space-x-2"
         >
-          <ArrowLeft className="w-5 h-5" />
+          <PlayCircle className="w-5 h-5" />
+          <span>Comenzar Ejercicio</span>
         </Button>
-        <h1 className="text-2xl font-bold">{exercise.nombre}</h1>
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="space-y-6">
-          <div>
-            <h3 className="text-lg font-semibold mb-2">Descripción</h3>
-            <p className="text-gray-400">{exercise.descripcion}</p>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Clock className="w-5 h-5 text-gray-400" />
-              <span>{exercise.tiempo_estimado || 15} minutos</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Trophy className="w-5 h-5 text-yellow-400" />
-              <span>{exercise.puntos} puntos</span>
-            </div>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-medium mb-2">Nivel Requerido</h3>
-            <span className="px-3 py-1 bg-yellow-400/10 text-yellow-400 rounded-full">
-              {exercise.nivel_requerido}
-            </span>
-          </div>
-        </div>
-
-        <div className="space-y-6">
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Progreso General</h3>
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>Completado por usuarios</span>
-                <span>75%</span>
-              </div>
-              <Progress value={75} />
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <Button className="w-full" size="lg">
-              <Dumbbell className="w-5 h-5 mr-2" />
-              Comenzar Ejercicio
-            </Button>
-          </div>
-        </div>
-      </div>
-    </Card>
+    </div>
   );
-} 
+};

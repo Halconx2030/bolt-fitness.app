@@ -1,17 +1,50 @@
 import { create } from 'zustand';
-import { exerciseService } from '@/services/api/exercises';
 import { userService } from '@/services/api/users';
 
 interface StatsState {
-  dailyStats: any[];
-  weeklyStats: any[];
-  achievements: any[];
+  dailyStats: DailyStats[];
+  weeklyStats: WeeklyStats[];
+  achievements: Achievement[];
   loading: boolean;
   error: string | null;
   fetchStats: () => Promise<void>;
 }
 
-export const useStats = create<StatsState>((set) => ({
+interface ProgressData {
+  fecha_completado: string;
+  puntos_obtenidos: number;
+}
+
+interface DailyStats {
+  date: string;
+  points: number;
+  exercises: number;
+}
+
+interface WeeklyStats {
+  week: string;
+  exercises: number;
+  points: number;
+}
+
+interface DailyDataAccumulator {
+  [key: string]: DailyStats;
+}
+
+interface WeeklyDataAccumulator {
+  [key: string]: WeeklyStats;
+}
+
+interface Achievement {
+  id: string;
+  name: string;
+  description: string;
+  unlocked: boolean;
+  progress?: number;
+  date_achieved?: string;
+}
+
+export const useStats = create<StatsState>(set => ({
   dailyStats: [],
   weeklyStats: [],
   achievements: [],
@@ -23,7 +56,7 @@ export const useStats = create<StatsState>((set) => ({
     try {
       const [progress, achievements] = await Promise.all([
         userService.getProgress(),
-        userService.getAchievements()
+        userService.getAchievements(),
       ]);
 
       // Procesar estadísticas diarias
@@ -34,20 +67,22 @@ export const useStats = create<StatsState>((set) => ({
         dailyStats,
         weeklyStats,
         achievements,
-        loading: false
+        loading: false,
       });
     } catch (error) {
       set({ error: 'Error al cargar estadísticas', loading: false });
     }
-  }
+  },
 }));
 
-function processProgressData(progress: any[], type: 'daily' | 'weekly') {
+function processProgressData(
+  progress: ProgressData[],
+  type: 'daily' | 'weekly'
+): DailyStats[] | WeeklyStats[] {
   if (!progress?.length) return [];
 
   if (type === 'daily') {
-    // Agrupar por día y calcular puntos totales
-    const dailyData = progress.reduce((acc: any, curr: any) => {
+    const dailyData = progress.reduce((acc: DailyDataAccumulator, curr: ProgressData) => {
       const date = new Date(curr.fecha_completado).toLocaleDateString();
       if (!acc[date]) {
         acc[date] = { date, points: 0, exercises: 0 };
@@ -57,14 +92,13 @@ function processProgressData(progress: any[], type: 'daily' | 'weekly') {
       return acc;
     }, {});
 
-    return Object.values(dailyData).sort((a: any, b: any) => 
-      new Date(a.date).getTime() - new Date(b.date).getTime()
+    return Object.values(dailyData).sort(
+      (a: DailyStats, b: DailyStats) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );
   }
 
   if (type === 'weekly') {
-    // Agrupar por semana
-    const weeklyData = progress.reduce((acc: any, curr: any) => {
+    const weeklyData = progress.reduce((acc: WeeklyDataAccumulator, curr: ProgressData) => {
       const date = new Date(curr.fecha_completado);
       const week = `${date.getFullYear()}-W${getWeekNumber(date)}`;
       if (!acc[week]) {
@@ -75,7 +109,7 @@ function processProgressData(progress: any[], type: 'daily' | 'weekly') {
       return acc;
     }, {});
 
-    return Object.values(weeklyData).sort((a: any, b: any) => 
+    return Object.values(weeklyData).sort((a: WeeklyStats, b: WeeklyStats) =>
       a.week.localeCompare(b.week)
     );
   }
@@ -87,4 +121,4 @@ function getWeekNumber(date: Date) {
   const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
   const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
   return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
-} 
+}

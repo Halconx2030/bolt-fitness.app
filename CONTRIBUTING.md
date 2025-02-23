@@ -45,4 +45,4 @@ Usa el sistema de issues de GitHub incluyendo:
 4. Capturas de pantalla (si aplica)
 5. Entorno (navegador, SO, etc.)
 
-¡Gracias por contribuir! 
+¡Gracias por contribuir!

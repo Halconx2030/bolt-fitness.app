@@ -11,6 +11,7 @@ Una descripción clara y concisa del bug.
 
 **Para reproducir**
 Pasos para reproducir el comportamiento:
+
 1. Ir a '...'
 2. Click en '....'
 3. Scroll down hasta '....'
@@ -23,9 +24,10 @@ Una descripción clara de lo que esperabas que sucediera.
 Si aplica, añade capturas de pantalla para ayudar a explicar tu problema.
 
 **Entorno (por favor completa la siguiente información):**
- - OS: [ej. iOS]
- - Navegador [ej. chrome, safari]
- - Versión [ej. 22]
+
+- OS: [ej. iOS]
+- Navegador [ej. chrome, safari]
+- Versión [ej. 22]
 
 **Contexto adicional**
-Añade cualquier otro contexto sobre el problema aquí. 
+Añade cualquier otro contexto sobre el problema aquí.

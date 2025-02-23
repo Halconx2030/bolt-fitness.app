@@ -5,7 +5,8 @@ import { NivelRequerido } from '@/types';
 export const userSchema = z.object({
   nombre: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
   email: z.string().email('Email inválido'),
-  password: z.string()
+  password: z
+    .string()
     .min(8, 'La contraseña debe tener al menos 8 caracteres')
     .regex(/[A-Z]/, 'Debe contener al menos una mayúscula')
     .regex(/[0-9]/, 'Debe contener al menos un número'),
@@ -13,17 +14,21 @@ export const userSchema = z.object({
 });
 
 export const exerciseSchema = z.object({
-  nombre: z.string()
+  nombre: z
+    .string()
     .min(3, 'El nombre debe tener al menos 3 caracteres')
     .max(100, 'El nombre no puede exceder 100 caracteres'),
-  descripcion: z.string()
+  descripcion: z
+    .string()
     .min(10, 'La descripción debe tener al menos 10 caracteres')
     .max(1000, 'La descripción no puede exceder 1000 caracteres'),
   nivel_requerido: z.nativeEnum(NivelRequerido),
-  puntos: z.number()
+  puntos: z
+    .number()
     .min(0, 'Los puntos no pueden ser negativos')
     .max(1000, 'Los puntos no pueden exceder 1000'),
-  tiempo_estimado: z.number()
+  tiempo_estimado: z
+    .number()
     .min(1, 'El tiempo mínimo es 1 minuto')
     .max(120, 'El tiempo máximo es 120 minutos')
     .optional(),
@@ -31,7 +36,8 @@ export const exerciseSchema = z.object({
 });
 
 export const commentSchema = z.object({
-  contenido: z.string()
+  contenido: z
+    .string()
     .min(1, 'El comentario no puede estar vacío')
     .max(500, 'El comentario no puede exceder 500 caracteres'),
   exercise_id: z.number().positive(),
@@ -53,15 +59,11 @@ export const validateData = <T>(schema: z.ZodSchema<T>, data: unknown): T => {
     return schema.parse(data);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      throw createApiError.validation('Error de validación', 
-        Object.fromEntries(
-          error.errors.map(err => [
-            err.path.join('.'),
-            [err.message]
-          ])
-        )
+      throw createApiError.validation(
+        'Error de validación',
+        Object.fromEntries(error.errors.map(err => [err.path.join('.'), [err.message]]))
       );
     }
     throw error;
   }
-}; 
+};

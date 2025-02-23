@@ -10,11 +10,7 @@ export const authService = {
     return response.data;
   },
 
-  async register(userData: {
-    nombre: string;
-    email: string;
-    password: string;
-  }) {
+  async register(userData: { nombre: string; email: string; password: string }) {
     const response = await api.post('/auth/register', userData);
     return response.data;
   },
@@ -36,4 +32,4 @@ export const authService = {
     });
     return response.data;
   },
-}; 
+};

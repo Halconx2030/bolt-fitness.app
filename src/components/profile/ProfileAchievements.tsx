@@ -13,7 +13,7 @@ export function ProfileAchievements() {
       <h3 className="text-lg font-semibold mb-4">Logros</h3>
       <ScrollArea className="h-[600px] pr-4">
         <div className="space-y-4">
-          {achievements.map((achievement) => (
+          {achievements.map(achievement => (
             <div
               key={achievement.id}
               className="flex items-start space-x-4 p-3 rounded-lg bg-gray-800/50"
@@ -23,9 +23,7 @@ export function ProfileAchievements() {
               </div>
               <div>
                 <p className="font-medium">{achievement.nombre}</p>
-                <p className="text-sm text-gray-400 mt-1">
-                  {achievement.descripcion}
-                </p>
+                <p className="text-sm text-gray-400 mt-1">{achievement.descripcion}</p>
                 <div className="flex items-center space-x-2 mt-2">
                   <div className="text-xs px-2 py-1 bg-yellow-400/10 text-yellow-400 rounded-full">
                     {achievement.puntos_requeridos} pts
@@ -41,4 +39,4 @@ export function ProfileAchievements() {
       </ScrollArea>
     </Card>
   );
-} 
+}

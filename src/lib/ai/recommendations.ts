@@ -6,13 +6,13 @@ export class RecommendationEngine {
     // Obtener historial del usuario
     const userHistory = await prisma.progreso.findMany({
       where: { usuario_id: userId },
-      include: { ejercicio: true }
+      include: { ejercicio: true },
     });
 
     // Obtener nivel actual
     const user = await prisma.usuarios.findUnique({
       where: { id: userId },
-      select: { nivel: true }
+      select: { nivel: true },
     });
 
     // Algoritmo simple de recomendación basado en nivel y historial
@@ -21,22 +21,22 @@ export class RecommendationEngine {
         nivel_requerido: user?.nivel,
         NOT: {
           id: {
-            in: userHistory.map(h => h.ejercicio_id)
-          }
-        }
+            in: userHistory.map(h => h.ejercicio_id),
+          },
+        },
       },
       orderBy: {
-        puntos: 'desc'
+        puntos: 'desc',
       },
-      take: 5
+      take: 5,
     });
 
     // Registrar recomendaciones para análisis
     Analytics.trackEvent('recommendations_generated', {
       userId,
-      count: recommendations.length
+      count: recommendations.length,
     });
 
     return recommendations;
   }
-} 
+}

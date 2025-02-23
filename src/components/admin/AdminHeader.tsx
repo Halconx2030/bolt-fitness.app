@@ -10,11 +10,18 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-interface AdminHeaderProps {
-  user: any; // Tipo a definir según tu implementación
+interface AdminData {
+  id: string;
+  name: string;
+  role: string;
+  permissions: string[];
 }
 
-export const AdminHeader = ({ user }: AdminHeaderProps) => {
+interface AdminHeaderProps {
+  data: AdminData;
+}
+
+export const AdminHeader = ({ data }: AdminHeaderProps) => {
   return (
     <header className="bg-gray-800/50 backdrop-blur-sm border-b border-gray-700 p-4">
       <div className="flex items-center justify-between">
@@ -40,7 +47,7 @@ export const AdminHeader = ({ user }: AdminHeaderProps) => {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="flex items-center space-x-2">
                 <User className="w-5 h-5" />
-                <span>{user?.name}</span>
+                <span>{data?.name}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
@@ -53,4 +60,4 @@ export const AdminHeader = ({ user }: AdminHeaderProps) => {
       </div>
     </header>
   );
-}; 
+};

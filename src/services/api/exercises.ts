@@ -6,7 +6,7 @@ const api = axios.create({
 });
 
 // Interceptor para añadir token
-api.interceptors.request.use((config) => {
+api.interceptors.request.use(config => {
   const { token } = useAuth.getState();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -47,7 +47,7 @@ export const exerciseService = {
 
   async addExerciseComment(exerciseId: number, content: string) {
     const response = await api.post(`/exercises/${exerciseId}/comments`, {
-      content
+      content,
     });
     return response.data;
   },
@@ -60,5 +60,5 @@ export const exerciseService = {
   async getExerciseProgress(exerciseId: number) {
     const response = await api.get(`/exercises/${exerciseId}/progress`);
     return response.data;
-  }
-}; 
+  },
+};

@@ -18,10 +18,7 @@ export function ProfileSkeleton() {
         <div className="lg:col-span-2 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div
-                key={i}
-                className="h-32 bg-gray-800/50 rounded-lg animate-pulse"
-              />
+              <div key={i} className="h-32 bg-gray-800/50 rounded-lg animate-pulse" />
             ))}
           </div>
           <div className="h-[500px] bg-gray-800/50 rounded-lg animate-pulse" />
@@ -30,4 +27,4 @@ export function ProfileSkeleton() {
       </div>
     </div>
   );
-} 
+}

@@ -6,7 +6,7 @@ const api = axios.create({
 });
 
 // Interceptor para añadir token
-api.interceptors.request.use((config) => {
+api.interceptors.request.use(config => {
   const { token } = useAuth.getState();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -20,11 +20,7 @@ export const userService = {
     return response.data;
   },
 
-  async updateProfile(userData: {
-    nombre?: string;
-    email?: string;
-    password?: string;
-  }) {
+  async updateProfile(userData: { nombre?: string; email?: string; password?: string }) {
     const response = await api.put('/users/profile', userData);
     return response.data;
   },
@@ -92,5 +88,21 @@ export const userService = {
   async getActivityHistory() {
     const response = await api.get('/users/history/activity');
     return response.data;
-  }
-}; 
+  },
+
+  getUserProfile: async (id: string) => {
+    // Lógica para obtener el perfil del usuario
+  },
+
+  updateUserProfile: async (id: string, data: any) => {
+    // Lógica para actualizar el perfil del usuario
+  },
+
+  getUserStats: async (id: string) => {
+    // Lógica para obtener estadísticas del usuario
+  },
+
+  updateUserPreferences: async (id: string, preferences: any) => {
+    // Lógica para actualizar preferencias del usuario
+  },
+};

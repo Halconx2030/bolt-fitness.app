@@ -8,28 +8,28 @@ export class SocialFeed {
           { userId },
           {
             userId: {
-              in: await this.getFollowedUserIds(userId)
-            }
-          }
-        ]
+              in: await this.getFollowedUserIds(userId),
+            },
+          },
+        ],
       },
       include: {
         user: true,
         comments: true,
-        likes: true
+        likes: true,
       },
       orderBy: {
-        createdAt: 'desc'
+        createdAt: 'desc',
       },
-      take: 20
+      take: 20,
     });
   }
 
   static async getFollowedUserIds(userId: number) {
     const follows = await prisma.follows.findMany({
       where: { followerId: userId },
-      select: { followingId: true }
+      select: { followingId: true },
     });
     return follows.map(f => f.followingId);
   }
-} 
+}

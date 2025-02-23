@@ -1,12 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -24,7 +19,7 @@ export function ProfileEditDialog({ open, onOpenChange }: ProfileEditDialogProps
     nombre: user?.nombre || '',
     email: user?.email || '',
     password: '',
-    newPassword: ''
+    newPassword: '',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -50,7 +45,7 @@ export function ProfileEditDialog({ open, onOpenChange }: ProfileEditDialogProps
             <Input
               id="nombre"
               value={formData.nombre}
-              onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
+              onChange={e => setFormData({ ...formData, nombre: e.target.value })}
             />
           </div>
           <div className="space-y-2">
@@ -59,7 +54,7 @@ export function ProfileEditDialog({ open, onOpenChange }: ProfileEditDialogProps
               id="email"
               type="email"
               value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              onChange={e => setFormData({ ...formData, email: e.target.value })}
             />
           </div>
           <div className="space-y-2">
@@ -68,7 +63,7 @@ export function ProfileEditDialog({ open, onOpenChange }: ProfileEditDialogProps
               id="password"
               type="password"
               value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              onChange={e => setFormData({ ...formData, password: e.target.value })}
             />
           </div>
           <div className="space-y-2">
@@ -77,7 +72,7 @@ export function ProfileEditDialog({ open, onOpenChange }: ProfileEditDialogProps
               id="newPassword"
               type="password"
               value={formData.newPassword}
-              onChange={(e) => setFormData({ ...formData, newPassword: e.target.value })}
+              onChange={e => setFormData({ ...formData, newPassword: e.target.value })}
             />
           </div>
           <div className="flex justify-end space-x-2">
@@ -90,4 +85,4 @@ export function ProfileEditDialog({ open, onOpenChange }: ProfileEditDialogProps
       </DialogContent>
     </Dialog>
   );
-} 
+}

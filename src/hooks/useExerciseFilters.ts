@@ -15,11 +15,11 @@ interface ExerciseFiltersState {
 const initialFilters: Filters = {
   search: '',
   level: '',
-  sortBy: 'recent'
+  sortBy: 'recent',
 };
 
-export const useExerciseFilters = create<ExerciseFiltersState>((set) => ({
+export const useExerciseFilters = create<ExerciseFiltersState>(set => ({
   filters: initialFilters,
-  setFilters: (filters) => set({ filters }),
-  resetFilters: () => set({ filters: initialFilters })
-})); 
+  setFilters: filters => set({ filters }),
+  resetFilters: () => set({ filters: initialFilters }),
+}));

@@ -10,7 +10,7 @@ export class NotificationService {
   }
 
   private setupSocketHandlers() {
-    this.io.on('connection', (socket) => {
+    this.io.on('connection', socket => {
       socket.on('join', (userId: number) => {
         socket.join(`user_${userId}`);
       });
@@ -27,8 +27,8 @@ export class NotificationService {
       data: {
         usuario_id: userId,
         tipo: notification.type,
-        mensaje: notification.message
-      }
+        mensaje: notification.message,
+      },
     });
 
     // Enviar en tiempo real
@@ -38,7 +38,7 @@ export class NotificationService {
   async markAsRead(notificationId: number) {
     await prisma.notificaciones.update({
       where: { id: notificationId },
-      data: { leida: true }
+      data: { leida: true },
     });
   }
-} 
+}

@@ -1,61 +1,44 @@
-import { create } from 'zustand';
-import { userService } from '@/services/api/users';
+import { useState, useCallback } from 'react';
+
+type NotificationType = 'success' | 'error' | 'info' | 'warning';
 
 interface Notification {
-  id: number;
-  tipo: string;
-  mensaje: string;
-  leida: boolean;
-  fecha_creacion: string;
+  id: string;
+  type: NotificationType;
+  message: string;
+  duration?: number;
 }
 
-interface NotificationState {
-  notifications: Notification[];
-  unreadCount: number;
-  loading: boolean;
-  fetchNotifications: () => Promise<void>;
-  markAsRead: (id: number) => Promise<void>;
-  addNotification: (notification: Notification) => void;
-}
+export const useNotifications = () => {
+  const [notifications, setNotifications] = useState<Notification[]>([]);
 
-export const useNotifications = create<NotificationState>((set, get) => ({
-  notifications: [],
-  unreadCount: 0,
-  loading: false,
+  const addNotification = useCallback((notification: Omit<Notification, 'id'>) => {
+    const id = Math.random().toString(36).substring(7);
+    const newNotification = { ...notification, id };
 
-  fetchNotifications: async () => {
-    set({ loading: true });
-    try {
-      const notifications = await userService.getNotifications();
-      set({
-        notifications,
-        unreadCount: notifications.filter((n: Notification) => !n.leida).length
-      });
-    } catch (error) {
-      console.error('Error fetching notifications:', error);
-    } finally {
-      set({ loading: false });
+    setNotifications(prev => [...prev, newNotification]);
+
+    if (notification.duration) {
+      setTimeout(() => {
+        removeNotification(id);
+      }, notification.duration);
     }
-  },
 
-  markAsRead: async (id: number) => {
-    try {
-      await userService.markNotificationAsRead(id);
-      set(state => ({
-        notifications: state.notifications.map(n =>
-          n.id === id ? { ...n, leida: true } : n
-        ),
-        unreadCount: state.unreadCount - 1
-      }));
-    } catch (error) {
-      console.error('Error marking notification as read:', error);
-    }
-  },
+    return newNotification;
+  }, []);
 
-  addNotification: (notification: Notification) => {
-    set(state => ({
-      notifications: [notification, ...state.notifications],
-      unreadCount: state.unreadCount + 1
-    }));
-  }
-})); 
+  const removeNotification = useCallback((id: string) => {
+    setNotifications(prev => prev.filter(notification => notification.id !== id));
+  }, []);
+
+  const clearAll = useCallback(() => {
+    setNotifications([]);
+  }, []);
+
+  return {
+    notifications,
+    addNotification,
+    removeNotification,
+    clearAll,
+  };
+};

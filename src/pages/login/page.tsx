@@ -13,7 +13,7 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
-    password: ''
+    password: '',
   });
   const { toast } = useToast();
 
@@ -24,7 +24,7 @@ const LoginPage = () => {
     try {
       // Aquí irá la lógica de autenticación
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       // Simulación de validación
       if (!formData.email || !formData.password) {
         throw new Error('Por favor completa todos los campos');
@@ -32,12 +32,11 @@ const LoginPage = () => {
 
       // Aquí iría la llamada a tu API
       console.log('Iniciando sesión...', formData);
-
     } catch (error) {
       toast({
-        variant: "destructive",
-        title: "Error",
-        description: error instanceof Error ? error.message : "Error al iniciar sesión",
+        variant: 'destructive',
+        title: 'Error',
+        description: error instanceof Error ? error.message : 'Error al iniciar sesión',
       });
     } finally {
       setIsLoading(false);
@@ -62,17 +61,17 @@ const LoginPage = () => {
               >
                 <div className="relative w-32 h-32 mx-auto mb-4">
                   <motion.div
-                    animate={{ 
-                      boxShadow: ['0 0 20px #EAB308', '0 0 60px #EAB308', '0 0 20px #EAB308']
+                    animate={{
+                      boxShadow: ['0 0 20px #EAB308', '0 0 60px #EAB308', '0 0 20px #EAB308'],
                     }}
-                    transition={{ 
+                    transition={{
                       duration: 2,
                       repeat: Infinity,
-                      repeatType: "reverse"
+                      repeatType: 'reverse',
                     }}
                     className="absolute inset-0 rounded-2xl"
                   />
-                  <img 
+                  <img
                     src={assets.images.logo.src}
                     alt={assets.images.logo.alt}
                     className="relative w-full h-full object-contain logo-glow"
@@ -98,7 +97,7 @@ const LoginPage = () => {
                     placeholder="Correo Electrónico"
                     className="pl-10 bg-gray-700/50 border-gray-600 text-gray-100 placeholder:text-gray-400"
                     value={formData.email}
-                    onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                    onChange={e => setFormData(prev => ({ ...prev, email: e.target.value }))}
                     disabled={isLoading}
                   />
                 </div>
@@ -116,7 +115,7 @@ const LoginPage = () => {
                     placeholder="Contraseña"
                     className="pl-10 bg-gray-700/50 border-gray-600 text-gray-100 placeholder:text-gray-400"
                     value={formData.password}
-                    onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+                    onChange={e => setFormData(prev => ({ ...prev, password: e.target.value }))}
                     disabled={isLoading}
                   />
                 </div>
@@ -127,14 +126,12 @@ const LoginPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.6 }}
               >
-                <Button 
+                <Button
                   type="submit"
                   className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold"
                   disabled={isLoading}
                 >
-                  {isLoading ? (
-                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                  ) : null}
+                  {isLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
                   {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
                 </Button>
               </motion.div>
@@ -163,4 +160,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage; 
+export default LoginPage;

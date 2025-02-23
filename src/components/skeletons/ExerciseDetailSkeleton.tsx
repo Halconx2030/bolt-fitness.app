@@ -53,4 +53,4 @@ export function ExerciseDetailSkeleton() {
       </div>
     </div>
   );
-} 
+}

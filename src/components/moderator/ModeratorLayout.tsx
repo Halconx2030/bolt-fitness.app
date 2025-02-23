@@ -14,14 +14,10 @@ export const ModeratorLayout = ({ children }: ModeratorLayoutProps) => {
       <ModeratorHeader />
       <div className="flex">
         <ModeratorSidebar />
-        <motion.main
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="flex-1 p-8"
-        >
+        <motion.main initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 p-8">
           {children}
         </motion.main>
       </div>
     </div>
   );
-}; 
+};

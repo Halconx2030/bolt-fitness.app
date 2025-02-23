@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '@fontsource/montserrat/700.css';
+@import '@fontsource/roboto/400.css';
+
+:root {
+  --primary: #ffd700;
+  --background: #1e1e1e;
+  --secondary: #2c2c2c;
+  --success: #39ff14;
+  --error: #ff4136;
+}
+
+body {
+  background-color: var(--background);
+  color: white;
+  font-family: 'Roboto', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button {
+  font-family: 'Montserrat', sans-serif;
+}
