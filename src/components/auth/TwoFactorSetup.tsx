@@ -35,6 +35,12 @@ export const TwoFactorSetup = ({ userId, onComplete }: TwoFactorSetupProps) => {
     generateSecret();
   }, [userId]);
 
+  useEffect(() => {
+    if (secret) {
+      setOtpauthUrl(`otpauth://totp/BoltFitness:${userId}?secret=${secret}&issuer=BoltFitness`);
+    }
+  }, [secret, userId]);
+
   // Verificar token ingresado
   const handleVerify = async () => {
     setIsLoading(true);

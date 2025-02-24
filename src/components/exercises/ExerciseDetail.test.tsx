@@ -1,49 +1,50 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ExerciseDetail } from './ExerciseDetail';
+import { ButtonProps } from '@/components/ui/button';
 
 // Usar un div simple en lugar de Card
 jest.mock('@/components/ui/card', () => {
+  const MockCard = ({ children, ...props }: { children: React.ReactNode }) => (
+    <div data-testid="mock-card" {...props}>
+      {children}
+    </div>
+  );
+  MockCard.displayName = 'Card';
   return {
     __esModule: true,
-    Card: ({ children, ...props }: { children: React.ReactNode }) => (
-      <div data-testid="mock-card" {...props}>
-        {children}
-      </div>
-    ),
-    default: ({ children, ...props }: { children: React.ReactNode }) => (
-      <div data-testid="mock-card" {...props}>
-        {children}
-      </div>
-    ),
+    Card: MockCard,
+    default: MockCard,
   };
 });
 
-jest.mock('@/components/ui/button', () => ({
-  Button: (props: any) => <button {...props} />,
-}));
+jest.mock('@/components/ui/button', () => {
+  const MockButton = (props: ButtonProps) => <button {...props} />;
+  MockButton.displayName = 'Button';
+  return { Button: MockButton };
+});
 
 // Usar un div simple en lugar de Progress
 jest.mock('@/components/ui/progress', () => {
+  const MockProgress = ({ children, ...props }: { children: React.ReactNode }) => (
+    <div data-testid="progress" {...props}>
+      {children}
+    </div>
+  );
+  MockProgress.displayName = 'Progress';
   return {
     __esModule: true,
-    Progress: ({ children, ...props }: { children: React.ReactNode }) => (
-      <div data-testid="progress" {...props}>
-        {children}
-      </div>
-    ),
-    default: ({ children, ...props }: { children: React.ReactNode }) => (
-      <div data-testid="progress" {...props}>
-        {children}
-      </div>
-    ),
+    Progress: MockProgress,
+    default: MockProgress,
   };
 });
 
 // Mock next/link
 jest.mock('next/link', () => {
-  return ({ children, href }: { children: React.ReactNode; href: string }) => (
+  const MockLink = ({ children, href }: { children: React.ReactNode; href: string }) => (
     <a href={href}>{children}</a>
   );
+  MockLink.displayName = 'Link';
+  return MockLink;
 });
 
 describe('ExerciseDetail', () => {

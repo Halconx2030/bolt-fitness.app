@@ -1,9 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from './card';
+import { ClassValue } from 'clsx';
 
 // Mock del componente cn para evitar problemas con tailwind
 jest.mock('@/lib/utils', () => ({
-  cn: (...args: any[]) => args.join(' '),
+  cn: (...args: ClassValue[]) => args.join(' '),
 }));
 
 describe('Card Components', () => {

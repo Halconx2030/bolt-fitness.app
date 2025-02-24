@@ -1,6 +1,5 @@
 import { User } from '@supabase/supabase-js';
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
 import { create } from 'zustand';
 
 interface UserState {
@@ -27,14 +26,13 @@ export type UserPreferences = {
 };
 
 export const useUser = () => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [user] = useState<User | null>(null);
 
   useEffect(() => {
     // ... existing code ...
   }, []);
 
-  return { user, loading };
+  return { user };
 };
 
 export const useUserZustand = create<UserState>(set => ({

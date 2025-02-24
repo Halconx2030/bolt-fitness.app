@@ -5,9 +5,11 @@ import { es } from 'date-fns/locale';
 
 // Mock next/link
 jest.mock('next/link', () => {
-  return ({ children, href }: { children: React.ReactNode; href: string }) => (
+  const MockLink = ({ children, href }: { children: React.ReactNode; href: string }) => (
     <a href={href}>{children}</a>
   );
+  MockLink.displayName = 'Link';
+  return MockLink;
 });
 
 describe('ActivityItem', () => {
@@ -81,7 +83,7 @@ describe('ActivityItem', () => {
   it('handles unknown activity type', () => {
     const unknownActivity = {
       ...mockActivity,
-      // @ts-ignore - Testing invalid type
+      // @ts-expect-error - Testing invalid type
       type: 'unknown_type',
     };
 

@@ -1,9 +1,10 @@
 import { render } from '@testing-library/react';
 import { Progress } from './progress';
+import { ClassValue } from 'clsx';
 
 // Mock de la función cn
 jest.mock('@/lib/utils', () => ({
-  cn: (...args: any[]) => args.join(' '),
+  cn: (...args: ClassValue[]) => args.join(' '),
 }));
 
 describe('Progress', () => {

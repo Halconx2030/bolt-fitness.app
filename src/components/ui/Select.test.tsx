@@ -1,9 +1,10 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Select, SelectTrigger, SelectContent, SelectItem } from './Select';
+import { ClassValue } from 'clsx';
 
 // Mock del componente cn para evitar problemas con tailwind
 jest.mock('@/lib/utils', () => ({
-  cn: (...args: any[]) => args.join(' '),
+  cn: (...args: ClassValue[]) => args.join(' '),
 }));
 
 describe('Select Components', () => {

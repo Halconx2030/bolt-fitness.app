@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/nextjs';
 import pino from 'pino';
+import { NextApiRequest, NextApiResponse, NextApiHandler } from 'next';
 
 /**
  * Configuración de niveles de log personalizados
@@ -92,32 +93,33 @@ class PerformanceMetrics {
 /**
  * Middleware para logging de peticiones HTTP
  */
-export const requestLogger = (handler: any) => async (req: any, res: any) => {
-  const start = Date.now();
+export const requestLogger =
+  (handler: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
+    const start = Date.now();
 
-  try {
-    const result = await handler(req, res);
+    try {
+      const result = await handler(req, res);
 
-    logger.info({
-      method: req.method,
-      url: req.url,
-      status: res.statusCode,
-      duration: Date.now() - start,
-    });
+      logger.info({
+        method: req.method,
+        url: req.url,
+        status: res.statusCode,
+        duration: Date.now() - start,
+      });
 
-    return result;
-  } catch (error) {
-    logger.error({
-      method: req.method,
-      url: req.url,
-      error: error instanceof Error ? error.message : 'Unknown error',
-      stack: error instanceof Error ? error.stack : undefined,
-      duration: Date.now() - start,
-    });
+      return result;
+    } catch (error) {
+      logger.error({
+        method: req.method,
+        url: req.url,
+        error: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined,
+        duration: Date.now() - start,
+      });
 
-    throw error;
-  }
-};
+      throw error;
+    }
+  };
 
 /**
  * Función para medir el tiempo de ejecución

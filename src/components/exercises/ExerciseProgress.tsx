@@ -11,8 +11,25 @@ interface ExerciseProgressProps {
   id: number;
 }
 
+interface ProgressAttempt {
+  id: string;
+  date: string;
+  points: number;
+  completed: boolean;
+}
+
+interface ProgressHistory {
+  date: string;
+  points: number;
+}
+
+interface ExerciseProgressData {
+  history: ProgressHistory[];
+  attempts: ProgressAttempt[];
+}
+
 export function ExerciseProgress({ id }: ExerciseProgressProps) {
-  const [progress, setProgress] = useState<any>(null);
+  const [progress, setProgress] = useState<ExerciseProgressData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -67,7 +84,7 @@ export function ExerciseProgress({ id }: ExerciseProgressProps) {
 
         <TabsContent value="history">
           <div className="space-y-4">
-            {progress?.attempts?.map((attempt: any) => (
+            {progress?.attempts?.map(attempt => (
               <div
                 key={attempt.id}
                 className="flex items-center justify-between p-4 rounded-lg bg-gray-800/50"

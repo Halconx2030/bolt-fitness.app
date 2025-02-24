@@ -1,9 +1,10 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import Button from './Button';
+import { ClassValue } from 'clsx';
 
 // Mock del componente cn para evitar problemas con tailwind
 jest.mock('@/lib/utils', () => ({
-  cn: (...args: any[]) => args.join(' '),
+  cn: (...args: ClassValue[]) => args.join(' '),
 }));
 
 describe('Button', () => {

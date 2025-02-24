@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { usePathname } from 'next/navigation';
 import NavLink from './NavLink';
+import { ClassValue } from 'clsx';
 
 // Mock de next/navigation
 jest.mock('next/navigation', () => ({
@@ -9,7 +10,7 @@ jest.mock('next/navigation', () => ({
 
 // Mock del componente cn para evitar problemas con tailwind
 jest.mock('@/lib/utils', () => ({
-  cn: (...args: any[]) => args.join(' '),
+  cn: (...args: ClassValue[]) => args.join(' '),
 }));
 
 describe('NavLink', () => {

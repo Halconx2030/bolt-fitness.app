@@ -4,16 +4,14 @@ import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Dumbbell, Calendar, Trophy, MessageSquare } from 'lucide-react';
+import { Dumbbell, Trophy, MessageSquare } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
 
 export function ProfileHistory() {
-  const [currentTab, setCurrentTab] = useState('exercises');
-
   return (
     <Card className="p-6">
-      <Tabs defaultValue="exercises" onValueChange={setCurrentTab}>
+      <Tabs defaultValue="exercises">
         <TabsList className="mb-4">
           <TabsTrigger value="exercises" className="space-x-2">
             <Dumbbell className="w-4 h-4" />
@@ -122,7 +120,9 @@ function CommentHistory() {
                 })}
               </span>
             </div>
-            <p className="text-sm text-gray-400 mt-1">"¡Excelente ejercicio! Me ayudó mucho."</p>
+            <p className="text-sm text-gray-400 mt-1">
+              &ldquo;¡Excelente ejercicio! Me ayudó mucho.&rdquo;
+            </p>
           </div>
         </div>
       ))}

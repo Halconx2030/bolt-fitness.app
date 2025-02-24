@@ -1,0 +1,27 @@
+# Configurar el comportamiento predeterminado para la normalización de texto
+* text=auto eol=lf
+
+# Forzar finales de línea específicos para ciertos tipos de archivos
+*.{cmd,[cC][mM][dD]} text eol=crlf
+*.{bat,[bB][aA][tT]} text eol=crlf
+*.{ps1,[pP][sS]1} text eol=crlf
+
+# Archivos que siempre deben usar LF
+*.js text eol=lf
+*.jsx text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+*.css text eol=lf
+*.scss text eol=lf
+*.html text eol=lf
+
+# Archivos binarios que no deben ser modificados
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.pdf binary 

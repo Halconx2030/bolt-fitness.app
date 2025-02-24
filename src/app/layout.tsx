@@ -5,7 +5,6 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { Toaster } from '@/components/ui/toaster';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
-import { Inter } from 'next/font/google'
 
 const montserrat = Montserrat({
   subsets: ['latin'],
