@@ -96,7 +96,7 @@
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.6",
     "zod": "^3.21.4",
-    "zustand": "^4.3.9"
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^13.0.0",
